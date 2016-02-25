@@ -31,7 +31,7 @@ Some of the programming design decisions reflected:
 Project Folders
 ***************
 
-/_data          avatar images, XML data
+/data          avatar images, XML data
 /application    the obvious
 /assets         CSS, javascript & media
 /public         folder for public XML-related documents
