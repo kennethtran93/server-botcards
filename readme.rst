@@ -31,9 +31,10 @@ Some of the programming design decisions reflected:
 Project Folders
 ***************
 
+/_data          avatar images, XML data
 /application    the obvious
 /assets         CSS, javascript & media
-/data           avatar images, XML data
+/public         folder for public XML-related documents
 
 Assumed: CI system folder is in ../system3
 
@@ -63,27 +64,8 @@ The ACIT4850 students have been tasked with building bot card trader webapps,
 which will broker the purchase and sale of bot trading cards for their
 users.
 
-A course designer should create a separate repository for their course content,
-which will mostly be a "data" folder instead of the "testdata" folder
-shown here. You can also create a downloads folder, with anything
-you to share with your users directly. To setup your course, deploy this
-webapp as the document root for a domain or subdomain, and then copy
-the data folders from your course repository. Boom!
-
-The repo should only contain the data folder, and a composer.json to update
-the engine (once that feature is enabled).
-
-The data folder should contain:
-- course.xml, with course metadata
-- materials.xml, describing the kinds of content used in the course,
-- organizer.xml, providing a trail through the content
-- logo.png, a 40x40 icon to use for the course "brand"
-- custom.css, over-riding colors for your course
-
-A thought ... if you setup a course X with its repo, then locally 
-"git remote add engine https://github.com/jedi-academy/engine.git", then
-you could just "git pull engine master" to update your course with the latest
-engine updates :)
+This webapp provides backend support for those trader webapps, and should
+prove particularly useful for testing :-/
 
 ***************
 Acknowledgement
