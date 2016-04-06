@@ -6,6 +6,14 @@ This webapp is an "engine" for managing the trading of "bot cards",
 the excuse for ACIT4850 assignments in the Winter 2016 term..
 
 *****************
+ACIT4850 Students
+*****************
+
+If there are problems with the game engine, please raise an issue for each.
+I will find out them sooner than otherwise, and you will be notified when these
+are solved.
+
+*****************
 Programming Style
 *****************
 
