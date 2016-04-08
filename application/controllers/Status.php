@@ -21,7 +21,7 @@ class Status extends Application {
 	function index()
 	{
 		// build our state description
-		$scoop = new SimpleXMLElement('<bsx/>');
+		$scoop = new SimpleXMLElement('<bcc/>');
 		$scoop->round = $this->properties->get('round');
 		$state = $this->properties->get('state');
 		$scoop->state = $state;
@@ -40,8 +40,7 @@ class Status extends Application {
 		// return it to the user
 		$this->output
 				->set_content_type('text/xml')
-				->set_output($scoop->asXML())
-				->_display();
+				->set_output($scoop->asXML());
 	}
 
 }

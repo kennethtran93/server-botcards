@@ -25,6 +25,14 @@ class Register extends Application {
 		$name = $this->input->post_get('name');
 		$password = $this->input->post_get('password');
 
+		if (empty($team))
+			$this->booboo('Surely you are on a team.');
+		if (empty($name))
+			$this->booboo("Can't you remember your name?");
+		if (empty($password))
+			$this->booboo('The password of the day is on '
+					. 'the main course page on D2L..');
+
 		// verify these
 		$set = substr($team, 0, 1);
 		if (!in_array($set, array('b', 'g', 'o', 's')))
@@ -56,9 +64,8 @@ class Register extends Application {
 		$response->team = $agent->code;
 		$response->token = $agent->password;
 		$this->output
-				->set_content_type('text/xml')
+				->set_content_type('application/xml')
 				->set_output($response->asXML());
 	}
-
 
 }
