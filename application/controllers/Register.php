@@ -35,7 +35,7 @@ class Register extends Application {
 
 		// verify these
 		$set = substr($team, 0, 1);
-		if (!in_array($set, array('b', 'g', 'o', 's')))
+		if (!in_array($set, array('a', 'b')))
 			$this->booboo('Unrecognized set');
 		if (strlen($name) < 1)
 			$this->booboo('You need a name');
