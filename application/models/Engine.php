@@ -8,6 +8,7 @@ class Engine extends CI_Model {
 
 	var $state = -1;
 	var $next_event = -1;
+	var $botsinprint = array();
 
 	public function __construct()
 	{
@@ -30,7 +31,8 @@ class Engine extends CI_Model {
 			$this->gearChange($state);
 
 		if ($state == GAME_OPEN)
-			$this->processQueue();
+			if ($CI->pool->size() < 100)
+				$this->generateCards();
 	}
 
 	// advance the game state
@@ -61,8 +63,7 @@ class Engine extends CI_Model {
 				// brief pause for commercials; nothing to do
 				break;
 			case GAME_OPEN:
-				// replenish card inventory?
-				$this->generateCards();
+				// nothing to do but wait
 				break;
 			case GAME_OVER:
 			default:
@@ -99,48 +100,38 @@ class Engine extends CI_Model {
 	function pickBots()
 	{
 		$CI = &get_instance();
-//		$CI->stocks->truncate();
-//		$size = $CI->candidates->size();
-//		$choices = rand(6, $size / 2); // choose a number
-//		$pool = $CI->candidates->results();
-//		for ($index = 0; $index < $choices; $index++)
-//		{
-//			$pick = rand(0, $size);
-//			$pickme = $pool->row($pick);
-//			if (!$CI->stocks->exists($pickme->code)) {
-//				$pickme->value = 100; // all start at 100
-//				$CI->stocks->add($pickme);
-//			}
-//		}
+		$this->botsinprint = array();
+
+		// build lists of the complete bots found in DATA/bots
+		$CI->load->helper('directory');
+		$files = directory_map(DATAPATH . 'bots');
+		foreach ($files as $file)
+		{
+			$series = substr($file, 0, 2);
+			$name = substr($file, 0, 3);
+			if (!isset($this->botsinprint[$series]))
+				$this->botsinprint[$series] = array();
+			$this->botsinprint[$series][] = $name;
+		}
 	}
 
 	// Generate an appropriate set of cards to buy
 	function generateCards()
 	{
 		$CI = &get_instance();
-		$count = $CI->config->item('state_countdowns')[GAME_OPEN];
-		$start = time();
 
-//		// generate candidate movements
-//		$upcoming = array();
-//		foreach ($CI->stocks->all() as $stock)
-//		{
-//			$stock_type = $stock->category;
-//			$limit = $count * $genx[$stock_type];
-//			$dice = $genz[$stock_type];
-//			$amounts = array(5, 10, 20);
-//			for ($i = 0; $i < $limit; $i++)
-//			{
-//				$maybe = $CI->movement->create();
-//				$maybe->datetime = $start + rand(0, $count);
-//				$maybe->code = $stock->code;
-//				$maybe->action = $dice[array_rand($dice)];
-//				$maybe->amount = $amounts[array_rand($amounts)];
-//				$key = $maybe->datetime . (1000 + $i);
-//				$upcoming[$key] = $maybe;
-//			}
-//		}
-//
+		// for each series, generate one set of cards per frequency
+		foreach ($CI->series->all() as $series)
+		{
+			$eligible = $this->botsinprint[$series->code];
+			for ($i = 0; $i < $series->frequency; $i++)
+			{
+				// pick one of the bots in the series
+				$which = rand(0, count($which));
+				$one = $eligible[$which];
+				$CI->pool->newguy($one);
+			}
+		}
 	}
 
 	// Eliminate stale players or agents
@@ -170,6 +161,5 @@ class Engine extends CI_Model {
 			$CI->players->update($player);
 		}
 	}
-
 
 }

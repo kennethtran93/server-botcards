@@ -139,5 +139,6 @@ $autoload['language'] = array();
  */
 
 $autoload['model'] = array('properties', 'engine', 'users', 'series', 
-	'certificates', 'transactions','players');
+	'certificates', 'transactions','players','pool'
+		);
 
