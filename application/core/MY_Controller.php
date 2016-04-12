@@ -28,6 +28,8 @@ class Application extends CI_Controller {
 		$this->data['outline'] = 'http://botcards.jlparry.com';
 		$this->data['site'] = 'http://www.bcit.ca/study/outlines/20161073674';
 		$this->errors = array();
+
+		$this->engine->check();
 	}
 
 	/**
@@ -67,6 +69,19 @@ class Application extends CI_Controller {
 	function booboo($message = "Unknown erorr")
 	{
 		$response = new SimpleXMLElement('<error/>');
+		$response->message = $message;
+		// return it to the user
+		$this->output
+				->set_content_type('text/xml')
+				->set_output($response->asXML())
+				->_display();
+		exit;
+	}
+
+	// respond with an informative XML message
+	function okiedokie($message = "Ok")
+	{
+		$response = new SimpleXMLElement('<result/>');
 		$response->message = $message;
 		// return it to the user
 		$this->output

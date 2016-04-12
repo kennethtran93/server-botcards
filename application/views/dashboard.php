@@ -15,4 +15,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<p>Active agents: {theagents}</p>
 	<p>Cards in the wild: {thecerts}</p>
 	<p>Transactions: {thetrans}</p>
+	<div>{status_report}</div>
+	<div class="row">
+		<div class="col-xs-6">
+			<h2>Recent Movements</h2>
+			<table class="table">
+				{themoves}
+			</table>
+		</div>
+		<div class="col-xs-6">
+			<h2>Recent Transactions</h2>
+			<table class="table">
+				{thetrans}
+			</table>
+		</div>
+	</div>
 </div>

@@ -81,6 +81,12 @@ interface Active_record {
 	 */
 	function highest();
 
+	/**
+	 * Return the first record
+	 * @return object The first record
+	 */
+	function first();
+
 //---------------------------------------------------------------------------
 //  Aggregate methods
 //---------------------------------------------------------------------------
@@ -116,6 +122,11 @@ interface Active_record {
 	 * @return array(object) The relevant records
 	 */
 	function tail($count);
+
+	/**
+	 * Clear out everything
+	 */
+	function truncate();
 }
 
 /**
@@ -316,6 +327,15 @@ class MY_Model extends CI_Model implements Active_Record {
 			return null;
 	}
 
+	// Retrieve first record from a table.
+	function first()
+	{
+		if ($this->size() < 1)
+			return null;
+		$query = $this->db->get($this->_tableName, 1, 1);
+		return $query->result()[0];
+	}
+
 	// Retrieve records from the beginning of a table.
 	function head($count = 10)
 	{
@@ -335,6 +355,12 @@ class MY_Model extends CI_Model implements Active_Record {
 		$this->db->order_by($this->_keyField, 'asc');
 		$query = $this->db->get($this->_tableName);
 		return $query->result();
+	}
+
+	// truncate the table backing this model
+	function truncate()
+	{
+		$this->db->truncate($this->_tableName);
 	}
 
 }
