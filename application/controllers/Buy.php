@@ -24,12 +24,15 @@ class Buy extends Application {
 		$team = $this->input->post_get('team');
 		$token = $this->input->post_get('token');
 		$player = $this->input->post_get('player');
-		$stock = $this->input->post_get('stock');
-		$quantity = $this->input->post_get('quantity');
 
-//		echo 'team='.$team;
-//		$record= $this->users->get($team);
-//		echo $record->name;
+		// existence testing
+		if (empty($team))
+			$this->booboo('You are missing an agency code');
+		if (empty($token))
+			$this->booboo('Your need your agent token');
+		if (empty($player))
+			$this->booboo('Which player is this transaction for?');
+
 		// verify the agent
 		if (!$this->users->exists($team))
 			$this->booboo('Unrecognized agent');
@@ -61,49 +64,46 @@ class Buy extends Application {
 		$this->players->update($one);
 
 
-		if (!$this->stocks->exists($stock))
-			$this->booboo('Unrecognized stock');
-
-		if ($quantity < 1)
-			$this->booboo('Nice try!');
-
 		// finally, can they afford the transaction?
-		$thestock = $this->stocks->get($stock);
-		$amount = $thestock->value * $quantity;
-		if ($amount > $one->cash)
+		$price = $this->properties->get('priceperpack');
+		if ($price > $one->cash)
 			$this->booboo('You cannot afford to buy that');
 
 		// take the money out of their account
-		$one->cash -= $amount;
+		$one->cash -= $price;
 		$this->players->update($one);
 
 		// record the transaction
 		$trx = $this->transactions->create();
 		$trx->seq = 0;
-		$trx->datetime = date(DATE_ATOM);
-		$trx->agent = $team;
+		$trx->datetime = time();
+		$trx->broker = $team;
 		$trx->player = $player;
-		$trx->stock = $stock;
 		$trx->trans = 'buy';
-		$trx->quantity = $quantity;
 		$this->transactions->add($trx);
 
-		$certificate = $this->certificates->create();
-		$certificate->token = dechex(rand(0, 1000000));
-		$certificate->stock = $stock;
-		$certificate->agent = $team;
-		$certificate->player = $player;
-		$certificate->amount = $quantity;
-		$this->certificates->add($certificate);
+		// give them 10 cards
+		$cardpack = new SimpleXMLElement('<cardpack/>');
 
-		$cert = new SimpleXMLElement('<certificate/>');
-		foreach (((array) $certificate) as $key => $value)
-			$cert->$key = $value;
+		for ($i = 0; $i < 10; $i++)
+		{
+			$original = $this->pool->first();
+			$certificate = $this->certificates->create();
+			$certificate->token = $original->token;
+			$certificate->piece = $original->piece;
+			$certificate->broker = $team;
+			$certificate->player = $player;
+			$certificate->datetime = time();
+			$this->certificates->add($certificate);
+			$this->pool->delete($original->token);
+			
+			$cert = $cardpack->addChild('certificate');
+			foreach (((array) $certificate) as $key => $value)
+				$cert->$key = $value;
+		}
 		$this->output
 				->set_content_type('text/xml')
-				->set_output($cert->asXML())
-				->_display();
-		;
+				->set_output($cardpack->asXML());
 	}
 
 }

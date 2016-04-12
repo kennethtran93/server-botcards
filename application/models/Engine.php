@@ -127,7 +127,7 @@ class Engine extends CI_Model {
 			for ($i = 0; $i < $series->frequency; $i++)
 			{
 				// pick one of the bots in the series
-				$which = rand(0, count($which));
+				$which = rand(0, count($eligible));
 				$one = $eligible[$which];
 				$CI->pool->newguy($one);
 			}

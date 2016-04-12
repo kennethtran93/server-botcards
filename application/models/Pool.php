@@ -17,9 +17,9 @@ class Pool extends MY_Model {
 	function newguy($bot)
 	{
 		// we need 3 pieces for this bot
-		$this->maker($bot . '-0');
-		$this->maker($bot . '-1');
-		$this->maker($bot . '-2');
+		$this->maker('' . $bot . '-0');
+		$this->maker('' . $bot . '-1');
+		$this->maker('' . $bot . '-2');
 	}
 
 	// "print" a new card
