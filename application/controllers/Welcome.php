@@ -21,7 +21,16 @@ class Welcome extends Application {
 	function index()
 	{
 		$this->data['pagebody'] = 'dashboard';
+		$this->data['status_report'] = $this->engine->report();
+		$this->current_info();
+		$this->recent_activity();
 
+
+		$this->render();
+	}
+
+	function current_info()
+	{
 		// show some summary series data
 		$result = '';
 		foreach ($this->series->all() as $record)
@@ -46,7 +55,17 @@ class Welcome extends Application {
 
 		$result = $this->certificates->size();
 		$this->data['thecerts'] = $result;
+	}
 
+	function recent_activity()
+	{
+		
+		$result = '';
+		foreach($this->players->all() as $player) {
+			
+		}
+		$this->data['thepeeps'] = $result;
+		
 		$result = '';
 		$count = array();
 		foreach ($this->transactions->all() as $record)
@@ -63,8 +82,6 @@ class Welcome extends Application {
 			$result .= $amount . ' ' . $type . 's';
 		}
 		$this->data['thetrans'] = $result;
-
-		$this->render();
 	}
 
 }

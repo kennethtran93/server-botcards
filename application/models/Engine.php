@@ -107,6 +107,8 @@ class Engine extends CI_Model {
 		$files = directory_map(DATAPATH . 'bots');
 		foreach ($files as $file)
 		{
+			if (substr($file, -4) != '.jpg')
+				continue;
 			$series = substr($file, 0, 2);
 			$name = substr($file, 0, 3);
 			if (!isset($this->botsinprint[$series]))
@@ -123,11 +125,11 @@ class Engine extends CI_Model {
 		// for each series, generate one set of cards per frequency
 		foreach ($CI->series->all() as $series)
 		{
-			$eligible = $this->botsinprint[$series->code];
+			$eligible = $this->botsinprint[''.$series->code];
 			for ($i = 0; $i < $series->frequency; $i++)
 			{
 				// pick one of the bots in the series
-				$which = rand(0, count($eligible));
+				$which = rand(0, count($eligible) - 1);
 				$one = $eligible[$which];
 				$CI->pool->newguy($one);
 			}

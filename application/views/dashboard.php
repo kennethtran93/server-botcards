@@ -18,9 +18,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div>{status_report}</div>
 	<div class="row">
 		<div class="col-xs-6">
-			<h2>Recent Movements</h2>
+			<h2>Recent Players</h2>
 			<table class="table">
-				{themoves}
+				{thepeeps}
 			</table>
 		</div>
 		<div class="col-xs-6">
