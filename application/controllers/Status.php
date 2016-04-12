@@ -25,7 +25,8 @@ class Status extends Application {
 		$scoop->round = $this->properties->get('round');
 		$state = $this->properties->get('state');
 		$scoop->state = $state;
-		$scoop->countdown = $this->properties->get('countdown');
+		$counting = $this->config->item('state_countdowns');
+		$scoop->countdown = $counting[$state];
 
 		// game state descriptions
 		$game_states = array(
