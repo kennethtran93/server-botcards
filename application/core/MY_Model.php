@@ -213,6 +213,11 @@ class MY_Model extends CI_Model implements Active_Record {
 		}
 		// update the DB table appropriately
 		$key = $data[$this->_keyField];
+		// For SQL Server's (AUTO_INCREMENT / IDENTITY), don't mention its column key
+		if ($this->_keyField == 'seq')
+		{
+			unset($data['seq']);
+		}
 		$object = $this->db->insert($this->_tableName, $data);
 	}
 
@@ -250,6 +255,11 @@ class MY_Model extends CI_Model implements Active_Record {
 		// update the DB table appropriately
 		$key = $data[$this->_keyField];
 		$this->db->where($this->_keyField, $key);
+		// For SQL Server's (AUTO_INCREMENT / IDENTITY), don't mention its column key
+		if ($this->_keyField == 'seq')
+		{
+			unset($data['seq']);
+		}
 		$object = $this->db->update($this->_tableName, $data);
 	}
 
