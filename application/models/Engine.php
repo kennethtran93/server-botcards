@@ -45,6 +45,7 @@ class Engine extends CI_Model {
 				// flush the round-specific tables
 				$CI->transactions->truncate();
 				$CI->certificates->truncate();
+				$CI->pool->truncate();
 				break;
 			case GAME_SETUP:
 				// which bots shall we use?
