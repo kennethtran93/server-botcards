@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<tr><th>#</th><th>Date/Time</th><th>agent</th><th>Player</th><th>Series</th><th>Action</th></tr>
 		{transactions}
 		<tr>
-			<td>{id}</td>
+			<td>{seq}</td>
 			<td>{datetime}</td>
 			<td>{broker}</td>
 			<td>{player}</td>
