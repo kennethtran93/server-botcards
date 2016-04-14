@@ -55,7 +55,7 @@ class Register extends Application {
 			$agent->code = $team;
 			$agent->name = $name;
 			$agent->role = 'agent';
-			$agent->password = md5($team . $name);
+			$agent->password = md5($team . $name . time()); // ensure unique tokens
 			$agent->last_round = $this->properties->get('round');
 
 			$this->users->add((array) $agent);
