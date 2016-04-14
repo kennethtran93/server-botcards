@@ -57,9 +57,8 @@ class Buy extends Application {
 			$one->player = $player;
 			$one->cash = $this->properties->get('startcash');
 			$this->players->add($one);
-			$found = $this->players->size();
 		}
-		$one = $this->players->get($found);
+		$one = $this->players->find($team, $player);
 		$one->round = $this->properties->get('round');
 		$this->players->update($one);
 
