@@ -42,24 +42,54 @@ class Data extends Application {
 	}
 
 	// return the certificates outstanding
-	function certificates($limit = 0)
+	function certificates($limit = 0, $agent = null, $player = null)
 	{
 		$this->load->dbutil();
 		if ($limit < 1)
-			$records = $this->certificates->results();
-		else
-			$records = $this->certificates->trailing($limit);
+		{
+			if (is_null($agent))
+			{
+				$records = $this->certificates->results();
+			} else
+			{
+				$records = $this->certificates->filter(NULL, strtolower($agent), strtolower($player));
+			}
+		} else
+		{
+			if (is_null($agent))
+			{
+				$records = $this->certificates->trailing($limit);
+			} else
+			{
+				$records = $this->certificates->filter($limit, strtolower($agent), strtolower($player));
+			}
+		}
 		echo $this->dbutil->csv_from_result($records);
 	}
 
 	// return the transactions for the current round
-	function transactions($limit = 0)
+	function transactions($limit = 0, $agent = null, $player = null)
 	{
 		$this->load->dbutil();
 		if ($limit < 1)
-			$records = $this->transactions->results();
-		else
-			$records = $this->transactions->trailing($limit);
+		{
+			if (is_null($agent))
+			{
+				$records = $this->transactions->results();
+			} else
+			{
+				$records = $this->transactions->filter(NULL, strtolower($agent), strtolower($player));
+			}
+		} else
+		{
+			if (is_null($agent))
+			{
+				$records = $this->transactions->trailing($limit);
+			} else
+			{
+				$records = $this->transactions->filter($limit, strtolower($agent), strtolower($player));
+			}
+		}
 		echo $this->dbutil->csv_from_result($records);
 	}
 
