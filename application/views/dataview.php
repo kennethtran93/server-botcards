@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<p>The following data can be requested here, and will be returned as CSV.</p>
 	<p>
 		For Certificates and Transactions, you can do additonal filtering by specifying additional parameters.<br />
-		Here are the parameter orders: <b>limit/agent/player</b>
+		Here are the order of parameter: <b>limit/agent/player</b>.  Example:  /data/certificates/0/a01/noname
 		<ul>
 			<li>limit = Number of recent records to extract.  Use 0 to get all records.</li>
 			<li>agent = Agent Code.</li>
