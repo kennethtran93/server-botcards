@@ -79,7 +79,7 @@ class Welcome extends Application {
 		{
 			if (strlen($result) > 0)
 				$result .= '; ';
-			$result .= $amount . ' ' . $type . 's';
+			$result .= $amount . ' ' . $type . ($amount == 1 ? "" :'s');
 		}
 		$this->data['thetrans'] = $result;
 	}
