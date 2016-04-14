@@ -20,6 +20,11 @@ class Register extends Application {
 	 */
 	function index()
 	{
+		// Checking game state
+		$state = $this->properties->get('state');
+		if ($state != GAME_READY && $state != GAME_OPEN)
+			$this->booboo('Cannot register the agent in the current state.  Please wait until state is ready or open.');
+		
 		// extract parameters
 		$team = strtolower($this->input->post_get('team'));
 		$name = $this->input->post_get('name');

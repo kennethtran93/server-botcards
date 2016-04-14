@@ -21,6 +21,10 @@ class Sell extends Application {
 	function index()
 	{
 
+		// Checking game state
+		if ($this->properties->get('state') != GAME_OPEN)
+			$this->booboo('Cannot process sell request in the current state.  Please wait until state is open.');
+		
 		// extract parameters
 		$team = $this->input->post_get('team');
 		$token = $this->input->post_get('token');
