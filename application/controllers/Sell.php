@@ -26,9 +26,9 @@ class Sell extends Application {
 			$this->booboo('Cannot process sell request in the current state.  Please wait until state is open.');
 
 		// extract parameters
-		$team = $this->input->post_get('team');
+		$team = strtolower($this->input->post_get('team'));
 		$token = $this->input->post_get('token');
-		$player = $this->input->post_get('player');
+		$player = strtolower($this->input->post_get('player'));
 		$top = $this->input->post_get('top');
 		$middle = $this->input->post_get('middle');
 		$bottom = $this->input->post_get('bottom');
