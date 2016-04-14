@@ -7,3 +7,5 @@
 /nbproject/private/
 /nbproject/
 /application/config/developmentx/
+/application/views/test/
+/application/controllers/Tester.php
