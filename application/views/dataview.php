@@ -17,8 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		Here are the order of parameter: <b>limit/agent/player</b>.  Example:  /data/certificates/0/a01/noname
 		<ul>
 			<li>limit = Number of recent records to extract.  Use 0 to get all records.</li>
-			<li>agent = Agent Code.</li>
-			<li>player = Player Name.  Agent code must be provided for this to work.</li>
+			<li>agent = (OPTIONAL) Agent Code.</li>
+			<li>player = (OPTIONAL) Player Name.  <b>Agent code must be provided for this to work.</b>  If this is left out then all records for agent specified will be returned.</li>
 		</ul>
 	</p>
 	<ul>
