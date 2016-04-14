@@ -26,23 +26,13 @@ class Status extends Application {
 		$state = $this->properties->get('state');
 		$scoop->state = $state;
 
-		// game state descriptions
-		$game_states = array(
-			'0' => 'closed',
-			'1' => 'setup',
-			'2' => 'ready',
-			'3' => 'open',
-			'4' => 'over'
-		);
 		$state_descs = $this->config->item('game_states');
 		$state_countdowns = $this->config->item('state_countdowns');
 		
-		$scoop->desc = (isset($game_states[$state])) ? $game_states[$state] : "Unknown";
-		$scoop->desc = (isset($game_states[$state])) ? $game_states[$state] : "Unknown";
 		$scoop->countdown = $this->properties->get('alarm') - time();
 
-		$upcoming = ($state + 1) % GAME_OVER;
-		$scoop->current = $state_descs[$state];
+		$upcoming = ($state + 1) % count($state_descs);
+		$scoop->current = (isset($state_descs[$state])) ? $state_descs[$state] : "Unknown";
 		$scoop->duration = $state_countdowns[$state];
 		$scoop->upcoming = $state_descs[$upcoming];
 		$scoop->alarm = date(SHORT_DATE, $this->properties->get('alarm'));
