@@ -25,9 +25,9 @@ class Buy extends Application {
 			$this->booboo('Cannot process buy request in the current state.  Please wait until state is open.');
 		
 		// extract parameters - what do they want to do?
-		$team = $this->input->post_get('team');
+		$team = strtolower($this->input->post_get('team'));
 		$token = $this->input->post_get('token');
-		$player = $this->input->post_get('player');
+		$player = strtolower($this->input->post_get('player'));
 
 		// existence testing
 		if (empty($team))
