@@ -20,6 +20,10 @@ class Buy extends Application {
 	 */
 	function index()
 	{
+		// Checking game state
+		if ($this->properties->get('state') != GAME_OPEN)
+			$this->booboo('Cannot process buy request in the current state.  Please wait until state is open.');
+		
 		// extract parameters - what do they want to do?
 		$team = $this->input->post_get('team');
 		$token = $this->input->post_get('token');
@@ -40,16 +44,8 @@ class Buy extends Application {
 		if ($token != $theteam->password)
 			$this->booboo('Bad agent token');
 
-		// Verify the player
-		$players = $this->players->some('agent', $team);
-		$found = -1;
-		foreach ($players as $one)
-		{
-			if (($one->agent == $team) && ($one->player == $player))
-				$found = $one->seq;
-		}
-
-		if ($found < 1)
+		// Verify the player, and create record if not found
+		if (is_null($this->players->find($team, $player)))
 		{
 			// create new player record
 			$one = $this->players->create();
@@ -58,6 +54,7 @@ class Buy extends Application {
 			$one->cash = $this->properties->get('startcash');
 			$this->players->add($one);
 		}
+		//Grab player record
 		$one = $this->players->find($team, $player);
 		$one->round = $this->properties->get('round');
 		$this->players->update($one);
