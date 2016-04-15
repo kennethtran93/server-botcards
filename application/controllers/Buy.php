@@ -72,14 +72,24 @@ class Buy extends Application {
 		// record the transaction
 		$trx = $this->transactions->create();
 		$trx->seq = 0;
-		$trx->datetime = time();
+		$trx->datetime = date('Y-m-d H:i:s');
 		$trx->broker = $team;
 		$trx->player = $player;
 		$trx->trans = 'buy';
 		$this->transactions->add($trx);
 
+		// Generate a buy receipt output
+		$receipt = new SimpleXMLElement('<buyreceipt/>');
+		
+		// Generate Billing info data
+		$billTo = $receipt->addChild('billTo');
+		$billTo->agent = $one->agent;
+		$billTo->player = $one->player;
+		$billTo->cost = $price;
+		$billTo->remaining = $one->cash;
+		
 		// give them 10 cards
-		$cardpack = new SimpleXMLElement('<cardpack/>');
+		$cardpack = $receipt->addChild('cardpack');
 
 		for ($i = 0; $i < 10; $i++)
 		{
@@ -89,7 +99,7 @@ class Buy extends Application {
 			$certificate->piece = $original->piece;
 			$certificate->broker = $team;
 			$certificate->player = $player;
-			$certificate->datetime = time();
+			$certificate->datetime = date('Y-m-d H:i:s');
 			$this->certificates->add($certificate);
 			$this->pool->delete($original->token);
 			
@@ -99,7 +109,7 @@ class Buy extends Application {
 		}
 		$this->output
 				->set_content_type('text/xml')
-				->set_output($cardpack->asXML());
+				->set_output($receipt->asXML());
 	}
 
 }
