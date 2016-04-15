@@ -125,11 +125,17 @@ class Sell extends Application {
 		$this->certificates->delete($bottom);
 
 
-		$response = new SimpleXMLElement('<ok/>');
-		$response->price = $price;
+		// Generate a sell receipt output
+		$receipt = new SimpleXMLElement('<ok/>');
+		
+		$receipt->agent = $one->agent;
+		$receipt->player = $one->player;
+		$receipt->price = $price;
+		$receipt->balance = $one->cash;
+		
 		$this->output
 				->set_content_type('text/xml')
-				->set_output($response->asXML());
+				->set_output($receipt->asXML());
 //		$this->booboo('Patience, young padawans - progressing the selling is');
 	}
 

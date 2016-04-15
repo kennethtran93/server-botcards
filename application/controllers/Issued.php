@@ -21,9 +21,15 @@ class Issued extends Application {
 	function index()
 	{
 		$this->data['pagebody'] = 'issuedlist';
-		$this->data['issued'] = $this->certificates->all();
+		$certificates = $this->certificates->all();
+		$result = array();
+		foreach ($certificates as $one)
+		{
+			$one['datetime'] = date('Y-m-d H:i:s', $one['datetime']);
+			$result[] = $one;
+		}
+		$this->data['issued'] = $result;
 		$this->render();
 	}
 
 }
-

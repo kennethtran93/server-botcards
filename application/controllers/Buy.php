@@ -23,7 +23,7 @@ class Buy extends Application {
 		// Checking game state
 		if ($this->properties->get('state') != GAME_OPEN)
 			$this->booboo('Cannot process buy request in the current state.  Please wait until state is open.');
-		
+
 		// extract parameters - what do they want to do?
 		$team = strtolower($this->input->post_get('team'));
 		$token = $this->input->post_get('token');
@@ -81,6 +81,12 @@ class Buy extends Application {
 		// give them 10 cards
 		$cardpack = new SimpleXMLElement('<cardpack/>');
 
+		// Generate Billing info data
+		$cardpack->addAttribute('agent', $one->agent);
+		$cardpack->addAttribute('player', $one->player);
+		$cardpack->addAttribute('price', $price);
+		$cardpack->addAttribute('balance', $one->cash);
+
 		for ($i = 0; $i < 10; $i++)
 		{
 			$original = $this->pool->first();
@@ -92,7 +98,7 @@ class Buy extends Application {
 			$certificate->datetime = time();
 			$this->certificates->add($certificate);
 			$this->pool->delete($original->token);
-			
+
 			$cert = $cardpack->addChild('certificate');
 			foreach (((array) $certificate) as $key => $value)
 				$cert->$key = $value;
