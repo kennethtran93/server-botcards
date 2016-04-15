@@ -72,7 +72,7 @@ class Buy extends Application {
 		// record the transaction
 		$trx = $this->transactions->create();
 		$trx->seq = 0;
-		$trx->datetime = date('Y-m-d H:i:s');
+		$trx->datetime = time();
 		$trx->broker = $team;
 		$trx->player = $player;
 		$trx->trans = 'buy';
@@ -99,7 +99,7 @@ class Buy extends Application {
 			$certificate->piece = $original->piece;
 			$certificate->broker = $team;
 			$certificate->player = $player;
-			$certificate->datetime = date('Y-m-d H:i:s');
+			$certificate->datetime = time();
 			$this->certificates->add($certificate);
 			$this->pool->delete($original->token);
 			
