@@ -23,11 +23,8 @@ class History extends Application {
 		$this->data['pagebody'] = 'translist';
 		$transactions = $this->transactions->all();
 		$result = array();
-		foreach ($transactions as $one) {
-			$one['datetime'] = date('Y-m-d H:i:s', $one['datetime']);
-			$result[] = $one;
-		}
-		$this->data['transactions'] = $result;
+
+		$this->data['transactions'] = $transactions;
 		$this->render();
 	}
 
