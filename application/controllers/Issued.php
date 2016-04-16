@@ -25,7 +25,7 @@ class Issued extends Application {
 		$result = array();
 		foreach ($certificates as $one)
 		{
-			$one['datetime'] = date('Y-m-d H:i:s', $one['datetime']);
+			$one->datetime = date('Y-m-d H:i:s', $one->datetime);
 			$result[] = $one;
 		}
 		$this->data['issued'] = $result;
