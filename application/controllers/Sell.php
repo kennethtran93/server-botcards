@@ -101,9 +101,12 @@ class Sell extends Application {
 			$series = null;
 
 		if ($series == null)
-			$price = 5; 
+			$price = 5;
 		else
+		{
+			$series = substr($series, 0, 2);
 			$price = $this->series->get($series)->value;
+		}
 
 		// add the money to their account
 		$one->cash += $price;
@@ -127,12 +130,12 @@ class Sell extends Application {
 
 		// Generate a sell receipt output
 		$receipt = new SimpleXMLElement('<ok/>');
-		
+
 		$receipt->agent = $one->agent;
 		$receipt->player = $one->player;
 		$receipt->price = $price;
 		$receipt->balance = $one->cash;
-		
+
 		$this->output
 				->set_content_type('text/xml')
 				->set_output($receipt->asXML());
