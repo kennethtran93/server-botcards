@@ -103,7 +103,10 @@ class Sell extends Application {
 		if ($series == null)
 			$price = 5; 
 		else
+		{
+			$series = substr($series, 0, 2);
 			$price = $this->series->get($series)->value;
+		}
 
 		// add the money to their account
 		$one->cash += $price;
