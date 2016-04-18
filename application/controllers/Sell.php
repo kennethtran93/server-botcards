@@ -112,7 +112,7 @@ class Sell extends Application {
 		// record the transaction
 		$trx = $this->transactions->create();
 		$trx->seq = 0;
-		$trx->datetime = time();
+		$trx->datetime = date('Y-m-d H:i:s');
 		$trx->broker = $team;
 		$trx->player = $player;
 		$trx->series = $series;
